@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "npm install"
   },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
