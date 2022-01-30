@@ -13,8 +13,7 @@ module.exports = {
     cooldown: '20s',
 
     //testOnly: true,
-    requireRoles: true,
-    slash: true,
+    slash: false,
     guildOnly: true,
 
     callback: async ({
@@ -55,6 +54,7 @@ module.exports = {
         )
 
         try {
+        message.delete()
         const captchaEmbed = new MessageEmbed()
             .setTitle('Please complete the captcha')
             .setImage('attachment://captcha.png')
@@ -64,12 +64,6 @@ module.exports = {
         const msg = await member.send({
             embeds: [captchaEmbed],
             files: [image]
-        })
-
-        interaction.reply({
-            custom: true,
-            content: 'I have sent you a DM',
-            ephemeral: true,
         })
 
         const filter = (message) => {
@@ -87,7 +81,7 @@ module.exports = {
             const vfyEmbed = new MessageEmbed()
             .setTitle('You have been successfuly verified')
             .setColor('GREEN')
-            .setDescription('Thats it!\nThanks for joining the server\n\n[Go straight to the server](https://discord.gg/3ktFGGHrpC)')
+            .setDescription('Thats it!\nThanks for joining the server [Go straight to the server](https://discord.gg/3ktFGGHrpC)')
 
             if (responce) {
                 member.roles.add(verify)
@@ -110,11 +104,6 @@ module.exports = {
 
         } catch(err) {
             console.log(err)
-            interaction.reply({
-                custom: true,
-                content: 'You DMs are not enabled. Please enable them and verify again',
-                ephemeral: true,
-            })
         }
     }
 }
