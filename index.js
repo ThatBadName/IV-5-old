@@ -6,8 +6,8 @@ const WOKCommands = require("wokcommands")
 const strikeSchema = require('./models/strike-schema')
 const historySchema = require('./models/history-schema')
 const path = require("path")
-const { MessageEmbed } = require('discord.js')
 const mongoose = require("mongoose")
+const { MessageEmbed } = require('discord.js') 
 const { DisTube } = require("distube")
 const { SpotifyPlugin } = require("@distube/spotify")
 const client = new DiscordJS.Client({
@@ -33,7 +33,26 @@ module.exports = client
 
 dotenv.config()
 
+const testSchema = require('./test-schema')
+
 client.events = require("./events/ticket/ticketSystem")
+
+process.on("unhandledRejection", (reason, p) => {
+    console.log(" [antiCrash] :: Unhandled Rejection/Catch");
+    console.log(reason, p);
+});
+process.on("uncaughtException", (err, origin) => {
+    console.log(" [antiCrash] :: Uncaught Exception/Catch");
+    console.log(err, origin);
+});
+process.on("uncaughtExceptionMonitor", (err, origin) => {
+    console.log(" [antiCrash] :: Uncaught Exception/Catch (MONITOR)");
+    console.log(err, origin);
+});
+process.on("multipleResolves", (type, promise, reason) => {
+    console.log(" [antiCrash] :: Multiple Resolves");
+    console.log(type, promise, reason);
+}); 
 
 
 client.on('ready', async () => {
@@ -48,7 +67,7 @@ client.on('ready', async () => {
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, 'commands'),
         featuresDir: path.join(__dirname, 'features'),
-        //eventsDir: path.join(__dirname, 'events'), 
+        eventsDir: path.join(__dirname, 'events'), 
         testServers: ['919242919829979136', '902937336478834749', '922510520312033290'],
         botOwners: ['804265795835265034', '561848864005554206'],
         mongoUri: process.env.MONGO_URI,
@@ -57,11 +76,11 @@ client.on('ready', async () => {
         }
       })
 
-    //   setTimeout(async () => {
-    //       await new testSchema({
-    //           message: 'hello world :)',
-    //       }).save()
-    //   }, 1000)
+      setTimeout(async () => {
+          await new testSchema({
+              message: 'hello world :)',
+          }).save()
+      }, 1000)
     
     setTimeout(async () => {
         await client.user.setActivity('Waking up (0%)', { type: 'PLAYING' })
@@ -151,5 +170,6 @@ client.on("messageCreate", async (message) => {
         
     }
 })
+
 
 client.login(process.env.TOKEN)
