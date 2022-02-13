@@ -3,7 +3,7 @@ const balanceSchema = require('../models/balance-schema')
 
 module.exports = {
     name: 'balance',
-    description: 'Check a users balance',
+    description: 'View balances, the leaderboard and transfer money',
     category: 'Economy',
     slash: true,
     options: [
@@ -44,6 +44,11 @@ module.exports = {
                     required: false,
                 },
             ],
+        },
+        {
+            name: 'leaderboard',
+            description: 'Get the top 15 richest users',
+            type: 'SUB_COMMAND',
         },
     ],
 
@@ -175,6 +180,24 @@ module.exports = {
                 return sendMoneyEmbed
                 
             
-        } 
+        } else if (interaction.options.getSubcommand() === 'leaderboard') {
+                let text = ''
+                const results = await balanceSchema.find({
+
+                }).sort({
+                    amount: -1
+                }).limit(15)
+
+                for (let counter = 0; counter < results.length; ++counter) {
+                    const { userId, amount = 0 } = results[counter]
+
+                    text += `#${counter + 1} <@${userId}> - ⏣\`${amount}\`\n`
+                }
+                const lbEmbed = new MessageEmbed()
+                .setTitle('Leaderboard')
+                .setColor('RANDOM')
+                .setDescription(text)
+                return lbEmbed
+        }
     }
 }
