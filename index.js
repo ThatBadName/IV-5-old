@@ -11,6 +11,7 @@ const mongoose = require("mongoose")
 const { MessageEmbed } = require('discord.js') 
 const { DisTube } = require("distube")
 const { SpotifyPlugin } = require("@distube/spotify")
+const balanceSchema = require('./models/balance-schema')
 const client = new DiscordJS.Client({
     intents: [
         DiscordJS.Intents.FLAGS.GUILDS,
@@ -19,7 +20,6 @@ const client = new DiscordJS.Client({
         DiscordJS.Intents.FLAGS.GUILD_MEMBERS,
         DiscordJS.Intents.FLAGS.GUILD_VOICE_STATES,
         DiscordJS.Intents.FLAGS.DIRECT_MESSAGES
-        //DiscordJS.Intents.FLAGS.GUILD_CHANNEL_UPDATE
     ]
 })
 
@@ -36,7 +36,7 @@ process.on("unhandledRejection", (reason, p) => {
 
     console.log(" [antiCrash] :: Unhandled Rejection/Catch");
 
-    //console.log(reason, p);
+    console.log(reason, p);
 
 });
 
