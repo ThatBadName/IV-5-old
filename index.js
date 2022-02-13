@@ -36,7 +36,7 @@ process.on("unhandledRejection", (reason, p) => {
 
     console.log(" [antiCrash] :: Unhandled Rejection/Catch");
 
-    console.log(reason, p);
+    //console.log(reason, p);
 
 });
 
@@ -44,7 +44,7 @@ process.on("uncaughtException", (err, origin) => {
 
     console.log(" [antiCrash] :: Uncaught Exception/Catch");
 
-    console.log(err, origin);
+    //console.log(err, origin);
 
 });
 
@@ -52,7 +52,7 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
 
     console.log(" [antiCrash] :: Uncaught Exception/Catch (MONITOR)");
 
-    console.log(err, origin);
+    //console.log(err, origin);
 
 });
 
@@ -60,7 +60,7 @@ process.on("multipleResolves", (type, promise, reason) => {
 
     console.log(" [antiCrash] :: Multiple Resolves");
 
-    console.log(type, promise, reason);
+    //console.log(type, promise, reason);
 
 });  
 
@@ -356,6 +356,25 @@ client.on("messageCreate", async (message, guild) => {
     } catch (err) {
         //console.log(err)
     }
+    const userBal = balanceSchema.findOne({userId: message.author.id}, async(err, doc)=>{
+        if(!doc) {
+        userBal.create({
+        userId: message.author.id,
+        amount: 0,
+        })
+        }
+        
+        });
+        const rng = Math.round(Math.random() * 6)
+
+        if (rng === 0) {
+            const give = Math.floor(Math.random() * 51)
+            const data = await balanceSchema.findOne({
+                userId: message.author.id
+            });
+                data.amount += give;
+                data.save();
+        }
 })
 
 client.on('tick', async() => {
