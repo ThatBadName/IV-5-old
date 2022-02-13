@@ -6,7 +6,6 @@ module.exports = {
     description: 'Check a users balance',
     category: 'Economy',
     slash: true,
-    testOnly: true,
     options: [
         {
             name: 'view',
